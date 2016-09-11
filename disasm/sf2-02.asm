@@ -4825,21 +4825,26 @@ loc_96B4:
 
 
 ; =============== S U B R O U T I N E =======================================
+; d1 current stat -> returned value as stat change
+; d2 growth type
+; d3 base stat
+; d4 projected stat
+; d5 level
 
 sub_96BA:
+										;handle no-growth stats (like MP on chester)
 										tst.b   d2
 										bne.s   loc_96C4
 										move.w  #0,d1
 										rts
 loc_96C4:
+										;handle post-30 level gains, here we use luck factor from level 30
 										movem.l d0/d2-a0,-(sp)
-										movem.w d1-d5,-(sp)
 										cmpi.w  #$1E,d5
 										blt.s   loc_96DC
-										move.w  #$100,d0
-										move.w  #$180,d4
-										bra.s   loc_96FE
+										move.w  #$1E,d5
 loc_96DC:
+										;get the stat growth curve
 										andi.w  #7,d2
 										subq.w  #1,d2
 										muls.w  #$74,d2 
@@ -4849,32 +4854,48 @@ loc_96DC:
 										subq.w  #1,d2
 										lsl.w   #2,d2
 										adda.w  d2,a0
+										move.w	d1,d2
+										; d2 now holds current stat
 										move.w  (a0)+,d0
-										move.w  (a0)+,d7
+										move.w  (a0)+,d1
+										; d4 is percentage of progress towards final stat, used to calc gauranteed stat gains
+										; d0 is change from last level normally, but used here as a "luck" factor for random stats
+										; d1 is the stat gain
 										sub.w   d3,d4
-										mulu.w  d7,d4
+										mulu	d0,d4
+										sub.w   d1,d4
+										move.w	d1,d0
+										addi.w  #$4,d0
+										move.w  #0,d1
+										;d1 is now change, d4 now represent expected progress
 loc_96FE:
-										move.w  #$80,d6 
+										; calculate if current stat is "behind" on expected progress, if so add +1 stat until it isn't behind
+										move.w	d2,d5
+										add.w	d1,d5
+										sub.w	d3,d5
+										mulu.w	#$100,d5
+										cmp.w	d4,d5
+										bge.s	loc_bonus_stats
+										addq.w  #1,d1
+										bra.s	loc_96FE
+loc_bonus_stats:
+										; +1 stat, loop until we fail random check
+										move.w  #$20,d6 
 										jsr     (UpdateRandomSeed).w
-										add.w   d7,d4
-										jsr     (UpdateRandomSeed).w
-										sub.w   d7,d4
-										addi.w  #$80,d4 
-										lsr.w   #8,d4
-										move.w  d4,d6
-										movem.w (sp)+,d1-d5
-										sub.w   d3,d4
-										mulu.w  d4,d0
-										addi.w  #$80,d0 
-										lsr.w   #8,d0
-										add.w   d3,d0
-										add.w   d6,d1
-										cmp.w   d0,d1
-										bge.s   loc_972E
-										addq.w  #1,d6
+										addq.w  #1,d1
+										cmp.w	d0,d7
+										blt.s   loc_bonus_stats
+										subi.w	#1,d1
 loc_972E:
-										move.w  d6,d1
+										;move.w  d6,d1
 										movem.l (sp)+,d0/d2-a0
+										rts
+										; padding so sub routine takes up same space
+										rts
+										rts	
+										rts										
+										rts										
+										rts
 										rts
 
 	; End of function sub_96BA

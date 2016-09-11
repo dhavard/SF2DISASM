@@ -1,6 +1,19 @@
 SF2DISASM
 =========
 
+Branch note
+=========
+This branch designed to implement a change to stat gains at level up to more closely resemble the Shining Force (1) aesthetic. 
+Stat gains are more random, though there is a level of gauranteed stats. Growth curves play a part in weighting "luck" on random stat gains.
+Early growths will benefit more early than before, Late growths will benefit more late than before (but struggle more early). Late growths will benefit more
+with levels outside growth curve (i.e. be luckier) than other curves.
+Stat gains are split into two distinct sections (in the code):
+1. Gauranteed stats. Note that if the current stat already exceeds gauranteed amount, no gain from this section will occur.
+2. Luck stats. Anywhere from 0 to inifinity, but statistically (for Linear growth) about 35% chance of stat gain of 1, 12% of stat gain of 2, etc.
+
+Overall, levels above 30 are not super exciting and effectively soft cap stats with this mod.
+=========
+
 A disassembly of the game "Shining Force II" for documentation and fan-project purposes, which can be assembled back into a bit-perfect replica of the original rom file.
 
 
