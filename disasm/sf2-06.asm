@@ -1623,9 +1623,10 @@ loc_2E182:
 										rts
 
 	; End of function HuffmanDecode
-
-TextBankTreeOffsets:incbin "scripting/textbanks/huffmantreeoffsets.bin"
-TextBankTreeData:   incbin "scripting/textbanks/huffmantrees.bin"
+;TextBankTreeOffsets:incbin "scripting/textbanks/huffmantreeoffsets.bin"
+;TextBankTreeData:   incbin "scripting/textbanks/huffmantrees.bin"
+TextBankTreeOffsets:incbin "scripting/textbanks/textbanktreepointers.bin"
+TextBankTreeData:   incbin "scripting/textbanks/textbanktreedata.bin"
 TextBank00:         incbin "scripting/textbanks/textbank00.bin"
 TextBank01:         incbin "scripting/textbanks/textbank01.bin"
 TextBank02:         incbin "scripting/textbanks/textbank02.bin"
