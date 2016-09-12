@@ -1,6 +1,17 @@
 SF2DISASM
 =========
 
+=========
+Branch Info
+
+This branch changes the Kiwi breath attack code to also allow:
+GLM to randomly cast Dao (Will hit adjacent)
+RBT to randomly magic Laser (ignore defense) as opposed to laser crit animation
+RBRN to randomly Desoul (Will hit adjacent)
+
+=========
+
+
 A disassembly of the game "Shining Force II" for documentation and fan-project purposes, which can be assembled back into a bit-perfect replica of the original rom file.
 
 
