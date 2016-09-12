@@ -1,6 +1,16 @@
 SF2DISASM
 =========
 
+=========
+Branch Info
+
+Alter flat 25% promotion bonus to instead take attack power into account for magic damage and healing.
+No longer do 25% more damage healing after promotion.
+Now magic does base effect + 1/3rd of attack power (including weapon attack power).
+
+=========
+
+
 A disassembly of the game "Shining Force II" for documentation and fan-project purposes, which can be assembled back into a bit-perfect replica of the original rom file.
 
 
