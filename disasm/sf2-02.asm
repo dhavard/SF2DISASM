@@ -8853,11 +8853,14 @@ GetSpellPowerAdjustedForClass:
 										cmpi.w  #1,(a3)
 										bne.w   loc_BB78
 										move.b  (a4),d0
-										jsr     GetClass
-										cmpi.b  #CHAR_CLASS_FIRSTPROMOTED,d1
-										bcs.w   loc_BB78
-										mulu.w  #5,d6
-										lsr.w   #2,d6
+;										jsr     GetClass
+;										cmpi.b  #CHAR_CLASS_FIRSTPROMOTED,d1
+;										bcs.w   loc_BB78
+;										mulu.w  #5,d6
+;										lsr.w   #2,d6
+										jsr		GetCurrentATK
+										divu.w  #$3,d1
+										add.w   d1,d6
 loc_BB78:
 										move.w  ((CURRENT_BATTLE_SPELL_INDEX-$1000000)).w,d1
 										cmpi.w  #SPELLIDX_DAO,d1
