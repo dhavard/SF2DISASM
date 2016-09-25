@@ -6614,7 +6614,7 @@ loc_24090:
 										cmpi.w  #$1E,d1 ; GLM $1E - dao $1D
 										beq.s   loc_do_breath    
 										move.w  #$48,d0
-										cmpi.w  #$1,d1 ; RBRN $1F - desoul $8, $48
+										cmpi.w  #$1F,d1 ; RBRN $1F - desoul $8, $48
 										beq.s   loc_do_breath
 										bra.s   loc_240E6
 loc_do_breath:
