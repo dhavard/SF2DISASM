@@ -6781,11 +6781,13 @@ CalculateDamageEXP:
 										tst.w   d1
 										beq.w   loc_A8F0
 										bsr.w   GetAmountOfEXPForEncounter
-										mulu.w  d6,d5
-										divu.w  d1,d5
+										;mulu.w  #2,d5
+										;divu.w  #3,d5
 										bsr.w   GiveEXPandCap
 loc_A8F0:
 										movem.l (sp)+,d0-d3/a0
+										rts
+										rts
 										rts
 
 	; End of function CalculateDamageEXP
@@ -6837,9 +6839,9 @@ loc_A93A:
 GiveEXPandCap:
 										
 										add.w   d5,((RAM_BattleScene_EXPGain-$1000000)).w
-										cmpi.w  #$31,((RAM_BattleScene_EXPGain-$1000000)).w 
+										cmpi.w  #$62,((RAM_BattleScene_EXPGain-$1000000)).w 
 										ble.s   return_A952
-										move.w  #$31,((RAM_BattleScene_EXPGain-$1000000)).w 
+										move.w  #$62,((RAM_BattleScene_EXPGain-$1000000)).w 
 return_A952:
 										
 										rts
@@ -6852,9 +6854,9 @@ return_A952:
 GiveEXPandHealingCap:
 										
 										add.w   d5,((RAM_BattleScene_EXPGain-$1000000)).w
-										cmpi.w  #$19,((RAM_BattleScene_EXPGain-$1000000)).w
+										cmpi.w  #$31,((RAM_BattleScene_EXPGain-$1000000)).w
 										ble.s   return_A966
-										move.w  #$19,((RAM_BattleScene_EXPGain-$1000000)).w
+										move.w  #$31,((RAM_BattleScene_EXPGain-$1000000)).w
 return_A966:
 										
 										rts
@@ -6884,19 +6886,19 @@ GetAmountOfEXPForEncounter:
 										addi.w  #CHAR_CLASS_EXTRALEVEL,d1
 loc_A990:
 										sub.w   d2,d1
-										moveq   #$32,d5 
+										moveq   #$63,d5 
 										cmpi.b  #3,d1
 										bmi.w   loc_A9C6
-										moveq   #$28,d5 
+										moveq   #$32,d5 
 										cmpi.b  #3,d1
 										beq.w   loc_A9C6
-										moveq   #$1E,d5
+										moveq   #$14,d5
 										cmpi.b  #4,d1
 										beq.w   loc_A9C6
-										moveq   #$14,d5
+										moveq   #$A,d5
 										cmpi.b  #5,d1
 										beq.w   loc_A9C6
-										moveq   #$A,d5
+										moveq   #$5,d5
 										cmpi.b  #6,d1
 										beq.w   loc_A9C6
 										moveq   #0,d5

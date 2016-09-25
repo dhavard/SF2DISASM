@@ -3755,8 +3755,6 @@ loc_1215C:
 loc_1217E:
 										
 										move.w  -2(a6),d0
-										tst.b   d0
-										blt.s   loc_121BC
 										jsr     j_GetCurrentLevel
 										movea.l -6(a6),a1
 										adda.w  #$8E,a1 
@@ -3765,6 +3763,8 @@ loc_1217E:
 										ext.l   d0
 										bsr.w   WriteTilesFromNumber
 										move.w  -2(a6),d0
+										tst.b   d0
+										blt.s   loc_ExpNotApplicable
 										jsr     j_GetCurrentEXP
 										movea.l -6(a6),a1
 										adda.w  #$18A,a1
@@ -3780,6 +3780,7 @@ loc_121BC:
 										adda.w  #$8C,a1 
 										moveq   #3,d7
 										bsr.w   WriteTilesFromASCII
+loc_ExpNotApplicable:
 										lea     byte_11FEC(pc), a0
 										movea.l -6(a6),a1
 										adda.w  #$188,a1
