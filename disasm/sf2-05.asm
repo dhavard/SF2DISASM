@@ -6592,40 +6592,65 @@ loc_2406A:
 										move.w  -2(a6),((word_FFB630-$1000000)).w
 										move.w  d0,-2(a6)
 loc_24090:
-										
+; Check for KIWI breath chance					
+; 29 breath 1 spell - 0001 0001
+; 69 breath 2 spell - 0101 0001
+; A9 breath 3 spell - 1001 0001
+; E9 breath 4 spell - 1101 0001
+				
 										move.w  -2(a6),d0
-										jsr     j_GetClass      
-										cmpi.w  #$1C,d1
-										bne.s   loc_240E6
+										jsr     j_GetClass    ; test class KNT 1, PRST 4
+										;move.w  #$1B,d0
+										;cmpi.w  #$1A,d1 ; PHNX $1A - katon $1B, or maybe blast? $E
+										;beq.s   loc_do_breath      
+										; bah too many bytes to fit 5 in, stick to 4 or streamline routine
+										move.w  #$29,d0
+										cmpi.w  #$1C,d1 ; MNST $1C - kiwi breath $29
+										beq.s   loc_do_breath    
+										move.w  #$2B,d0
+										cmpi.w  #$1D,d1 ; RBT $1D - odd laser $2B
+										beq.s   loc_do_breath    
+										move.w  #$1D,d0
+										cmpi.w  #$1E,d1 ; GLM $1E - dao $1D
+										beq.s   loc_do_breath    
+										move.w  #$48,d0
+										cmpi.w  #$1,d1 ; RBRN $1F - desoul $8, $48
+										beq.s   loc_do_breath
+										bra.s   loc_240E6
+loc_do_breath:
 										tst.w   ((RAM_BattleScene_ActionType-$1000000)).w
 										bne.s   loc_240E6
-										moveq   #4,d6
+										moveq   #4,d6 ; 1 in X chance
 										jsr     (UpdateRandomSeed).w
 										tst.w   d7
 										bne.s   loc_240E6
 										move.w  ((word_FFB630-$1000000)).w,((word_FFB632-$1000000)).w
 										move.w  #1,((RAM_BattleScene_ActionType-$1000000)).w
-										jsr     j_GetCurrentLevel
-										clr.w   d0
-										cmpi.w  #$20,d1 
-										blt.s   loc_240CC
-										addq.w  #1,d0
+;										clr.w   d0
+;										; start of things we don't care about
+;										jsr     j_GetCurrentLevel
+;										cmpi.w  #$20,d1 
+;										blt.s   loc_240CC
+;										addq.w  #1,d0
 loc_240CC:
-										
-										cmpi.w  #$28,d1 
-										blt.s   loc_240D4
-										addq.w  #1,d0
+;										
+;										cmpi.w  #$28,d1 
+;										blt.s   loc_240D4
+;										addq.w  #1,d0
 loc_240D4:
 										
-										cmpi.w  #$32,d1 
-										blt.s   loc_240DC
-										addq.w  #1,d0
+;										cmpi.w  #$32,d1 
+;										blt.s   loc_240DC
+;										addq.w  #1,d0
 loc_240DC:
+; adjust and store spell usage
 										
-										lsl.w   #6,d0
-										ori.w   #$29,d0 
+										;lsl.w   #6,d0
+										;ori.w   #$29,d0 ; base spell $29 is kiwi breath 1
+										;addi.w  #$D,d0
 										move.w  d0,((word_FFB630-$1000000)).w
 loc_240E6:
+; after breath check
 										
 										cmpi.b  #$2C,((CURRENT_BATTLE-$1000000)).w 
 										bne.s   loc_240F4
