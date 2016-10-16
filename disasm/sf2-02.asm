@@ -4896,7 +4896,6 @@ loc_972E:
 										rts										
 										rts										
 										rts
-										rts
 
 	; End of function sub_96BA
 
